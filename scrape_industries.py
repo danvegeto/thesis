@@ -12,15 +12,20 @@ for cid in cid_list:
 
 	url = 'http://www.opensecrets.org/politicians/industries.php?type=I&recs=0&cycle=' + cycle + '&cid=' + cid
 
-	tempfile = 'temp.html'
+	try:
 
-	urllib.urlretrieve(url, tempfile)
+		html = urllib.urlopen(url).read()
 
-	html = BeautifulSoup(open(tempfile))
+	except IOError:
 
-	for table in html.find_all('table', attrs={'id': 'topIndus'}):
+		print cid
+		continue
 
-		for tr in html.find_all('tr'):
+	doc = BeautifulSoup(html)
+
+	for table in doc.find_all('table', attrs={'id': 'topIndus'}):
+
+		for tr in doc.find_all('tr'):
 
 			col_tags = tr.find_all('td')
 
@@ -32,11 +37,14 @@ for cid in cid_list:
 			if text == 'Coded' or text == 'Not Coded':
 				continue
 
-			cols = [cid]
+			cols = ['"' + cid + '"']
 
-			for td in tr.find_all('td'):
+			# ignore first two columns
+			col_tags = col_tags[2:]
 
-				cols.append(td.get_text())
+			for td in col_tags:
+
+				cols.append('"' + td.get_text().strip() + '"')
 
 			print '\t'.join(cols)
 

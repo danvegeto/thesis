@@ -5,13 +5,12 @@ from bs4 import BeautifulSoup
 congno = sys.argv[1]
 
 url = 'http://www.opensecrets.org/politicians/candlist.php?congno=' + congno
-tempfile = 'temp.html'
 
-urllib.urlretrieve(url, tempfile)
+html = urllib.urlopen(url).read()
 
-html = BeautifulSoup(open(tempfile))
+doc = BeautifulSoup(html)
 
-for link in html.find_all('a'):
+for link in doc.find_all('a'):
 
 	href = link.get('href')
 
@@ -24,8 +23,8 @@ for link in html.find_all('a'):
 
 		text = link.get_text()
 
-		lastname = text.split(' ')[0][:-1]
-		firstname = text.split(' ')[1]
-		party = text.split('(')[1][0]
+		lastname = '"' + text.split(' ')[0][:-1].strip() + '"'
+		firstname = '"' + text.split(' ')[1].strip() + '"'
+		party = '"' + text.split('(')[1][0].strip() + '"'
 
-		print ','.join([cid, lastname, firstname, party])
+		print '\t'.join([cid, lastname, firstname, party])
