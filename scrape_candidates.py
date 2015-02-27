@@ -23,8 +23,8 @@ for link in doc.find_all('a'):
 
 		text = link.get_text()
 
-		lastname = '"' + text.split(' ')[0][:-1].strip() + '"'
-		firstname = '"' + text.split(' ')[1].strip() + '"'
-		party = '"' + text.split('(')[1][0].strip() + '"'
+		lastname = text.split(' ')[0][:-1].strip()
+		firstname = text.split(' ')[1].strip()
+		party = text.split('(')[1][0].strip()
 
 		print '\t'.join([cid, lastname, firstname, party])

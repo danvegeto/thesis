@@ -44,7 +44,7 @@ for cid in cid_list:
 
 			for td in col_tags:
 
-				cols.append('"' + td.get_text().strip() + '"')
+				cols.append(td.get_text().strip())
 
 			print '\t'.join(cols)
 
