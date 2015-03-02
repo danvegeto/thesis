@@ -9,8 +9,4 @@ matrix = as.matrix(pivot)
 matrix = gsub(',', '', matrix)
 matrix = gsub('\\$', '', matrix)
 
-#matrix = matrix[order(rownames(matrix)),]
-
-#head(matrix)
-
-write.table(matrix, sep='\t', quote=FALSE, na='0', row.names=FALSE, col.names=FALSE)
+write.table(matrix, sep='\t', quote=FALSE, na='0', col.names=FALSE)

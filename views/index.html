@@ -44,7 +44,6 @@ var yAxis = d3.svg.axis()
 
 var tooltip = d3.select("body")
     .append("div")
-    .style("width", "200px")
     .style("position", "absolute")
     .style("z-index", "10")
     .style("visibility", "hidden")
@@ -74,10 +73,18 @@ d3.tsv("data/data.tsv", function(error, data) {
       .attr("r", 3.5)
       .attr("cx", function(d) { return x(d.x); })
       .attr("cy", function(d) { return y(d.y); })
-      .style("fill", function(d) { console.log(d["color"]); return d["color"]; })
+      .style("fill", function(d) 
+      { 
+        if(d["party"] == "R")
+          return d3.rgb(255,0,0);
+        else if(d["party"] == "D")
+          return d3.rgb(0,0,255);
+        else
+          return d3.rgb(0,0,0);
+      })
       .on("mouseover", function(){return tooltip.style("visibility", "visible");})
 		.on("mousemove", function(d){return tooltip
-			.html(d.x + " " + d.y)
+			.html(d["first"] + " " + d["last"] + " (" + d["party"] + ")")
 			.style("top", (d3.event.pageY-10)+"px")
 		  .style("left", (d3.event.pageX+10)+"px");})
 		.on("mouseout", function(){return tooltip.style("visibility", "hidden");})
