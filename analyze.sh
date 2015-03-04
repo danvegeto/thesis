@@ -14,7 +14,7 @@ python get_column.py data/candidates.tsv 4 > data/candidate_totals.txt
 Rscript normalize.R data/raw_matrix.tsv data/candidate_totals.txt > data/normalized_matrix.tsv
 python ~/tools/tsne/reduce.py ./data/normalized_matrix.tsv > data/2d_matrix.tsv
 
-echo -e "cid\tlast\tfirst\tparty\tt\tx\ty" > data/data.tsv
+echo -e "cid\tlast\tfirst\tparty\tt\tindustry\tx\ty" > data/data.tsv
 Rscript join_columns.R data/candidates.tsv data/2d_matrix.tsv >> data/data.tsv
 
 cp data/data.tsv views/data/data.tsv

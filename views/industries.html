@@ -75,22 +75,12 @@ d3.tsv("data/data.tsv", function(error, data) {
       .attr("cy", function(d) { return y(d.y); })
       .style("fill", function(d) 
       { 
-        /**/
-        // color by party
-        if(d["party"] == "R")
-          return d3.rgb(255,0,0);
-        else if(d["party"] == "D")
-          return d3.rgb(0,0,255);
-        else
-          return d3.rgb(0,0,0);
-        
-        /*
         // color by top industry
-        if(d["industry"] == "Lawyers/Law Firms")
+        if(d["industry"] == "Retired")
           return d3.rgb(255,0,0);
         else if(d["industry"] == "Securities & Investment")
           return d3.rgb(0,255,0);
-        else if(d["industry"] == "Retired")
+        else if(d["industry"] == "Lawyers/Law Firms")
           return d3.rgb(0,0,255);
         else if(d["industry"] == "Health Professionals")
           return d3.rgb(255,255,0);
@@ -100,7 +90,6 @@ d3.tsv("data/data.tsv", function(error, data) {
           return d3.rgb(0,255,255);
         else
           return d3.rgb(196,196,196);
-        */
       })
       .on("mouseover", function(){return tooltip.style("visibility", "visible");})
 		.on("mousemove", function(d){return tooltip
