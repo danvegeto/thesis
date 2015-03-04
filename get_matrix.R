@@ -1,7 +1,7 @@
 args <- commandArgs(TRUE)
 library(reshape)
 
-data = read.table(args[1], sep='\t', quote="")
+data = read.table(args[1], sep='\t', quote='')
 
 pivot = cast(data, V1 ~ V2, value='V3')
 
