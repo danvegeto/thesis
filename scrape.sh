@@ -1,5 +1,9 @@
 set -v
+
 python scrape_candidates.py 112 > data/candidates.tsv
+Rscript sort_candidates.R data/candidates.tsv > data/candidates_1.tsv
+cp data/candidates_1.tsv data/candidates.tsv
+
 python get_first_column.py data/candidates.tsv > data/cids.txt
 python scrape_candidate_totals.py 2012 data/cids.txt > data/candidate_totals.txt
 
@@ -11,6 +15,9 @@ cp data/candidate_totals_1.txt data/candidate_totals.txt
 
 python get_first_column.py data/candidates.tsv > data/cids.txt
 python scrape_industries.py 2012 data/cids.txt > data/industries.tsv
+python get_unique_names.py data/industries.tsv > data/cids.txt
+python remove_missing_rows.py data/candidates.tsv data/cids.txt > data/candidates_1.tsv
+cp data/candidates_1.tsv data/candidates.tsv
 
 python get_top_industries.py data/industries.tsv > data/top_industries.tsv
 Rscript sort_candidates.R data/top_industries.tsv > data/top_industries_1.tsv

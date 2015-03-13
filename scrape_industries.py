@@ -18,7 +18,6 @@ for cid in cid_list:
 
 	except IOError:
 
-		print cid
 		continue
 
 	doc = BeautifulSoup(html)
@@ -29,7 +28,7 @@ for cid in cid_list:
 
 			col_tags = tr.find_all('td')
 
-			if len(col_tags) < 2:
+			if len(col_tags) < 3:
 				continue
 
 			text = col_tags[1].get_text()

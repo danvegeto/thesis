@@ -2,12 +2,12 @@ set -v
 
 Rscript get_matrix.R data/industries.tsv > data/matrix.tsv
 
-python get_first_column.py data/matrix.tsv > data/matrix_cids.txt
-python strip_first_column.py data/matrix.tsv > data/raw_matrix.tsv
+python strip_header.py data/matrix.tsv > data/matrix_1.tsv
+python get_first_column.py data/matrix_1.tsv > data/matrix_cids.txt
+python strip_first_column.py data/matrix_1.tsv > data/raw_matrix.tsv
 
-Rscript sort_candidates.R data/candidates.tsv > data/candidates_1.tsv
-python remove_missing_rows.py data/candidates_1.tsv data/matrix_cids.txt > data/candidates_2.tsv
-cp data/candidates_2.tsv data/candidates.tsv
+python remove_missing_rows.py data/candidates.tsv data/matrix_cids.txt > data/candidates_1.tsv
+cp data/candidates_1.tsv data/candidates.tsv
 
 python get_column.py data/candidates.tsv 4 > data/candidate_totals.txt
 

@@ -9,4 +9,4 @@ matrix = as.matrix(pivot)
 matrix = gsub(',', '', matrix)
 matrix = gsub('\\$', '', matrix)
 
-write.table(matrix, sep='\t', quote=FALSE, na='0', col.names=FALSE)
+write.table(matrix, sep='\t', quote=FALSE, na='0')
