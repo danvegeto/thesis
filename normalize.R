@@ -8,4 +8,4 @@ vector = as.vector(vector_data)
 
 normalized = matrix / c(vector)
 
-write.table(normalized, sep='\t', quote=FALSE, na='0', row.names=FALSE, col.names=FALSE)
+write.table(normalized, sep='\t', quote=FALSE, na='0')
