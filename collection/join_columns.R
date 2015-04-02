@@ -1,0 +1,5 @@
+args <- commandArgs(TRUE)
+data1 = read.table(args[1], sep='\t', quote="")
+data2 = read.table(args[2], sep='\t', quote="")
+data = cbind(data1, data2)
+write.table(data, sep='\t', quote=FALSE, na='0', row.names=FALSE, col.names=FALSE)
