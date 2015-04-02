@@ -1,8 +1,8 @@
 args <- commandArgs(TRUE)
 library(reshape)
 
-donations = read.table(args[1], sep='\t', quote='')
-votes = read.table(args[2], sep='\t', quote='')
+donations = read.table(args[1], sep='\t', quote='', header=TRUE)
+votes = read.table(args[2], sep='\t', quote='', header=TRUE)
 
 x = as.matrix(donations)
 y = unlist(votes[1])
@@ -10,6 +10,10 @@ y = unlist(votes[1])
 rows = min(nrow(x), nrow(y))
 
 x = x[1:rows,]
+
+cat('\t\t')
+cat(colnames(donations), sep='\t')
+cat('\n')
 
 for (i in 1:nrow(votes))
 {
@@ -24,6 +28,9 @@ for (i in 1:nrow(votes))
 	#summary(fit)
 	
 	c = coefficients(fit)
+
+	cat(colnames(votes)[i])
+	cat('\t')
 
 	cat(c, sep='\t')
 

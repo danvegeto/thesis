@@ -5,8 +5,8 @@ donations = pandas.read_csv(sys.argv[1], sep='\t')
 votes = pandas.read_csv(sys.argv[2], sep='\t')
 legislators = pandas.read_csv(sys.argv[3], sep=',', quoting=True, quotechar='"')
 
-D = ''
-V = ''
+D = '\t'.join(donations.columns)
+V = '\t'.join(votes.columns)
 
 for d in range(len(donations)):
 
@@ -31,13 +31,13 @@ for d in range(len(donations)):
 					for x in donations.ix[d,:].values:
 						str_list.append(str(x))
 
-					D += '\t'.join(str_list) + '\n'
+					D += '\n' + '\t'.join(str_list)
 
 					str_list = []
 					for x in votes.ix[v,:].values:
 						str_list.append(str(x))
 
-					V +=  '\t'.join(str_list) + '\n'
+					V += '\n' + '\t'.join(str_list)
 
 D_file = open('data/aligned_matrix.tsv', 'w')
 D_file.write(D)
