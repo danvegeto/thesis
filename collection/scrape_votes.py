@@ -30,13 +30,12 @@ for year in ['2013', '2014']:
 
 		for choice in data['votes'].keys():
 
-			quant = '0'
+			quant = '0.5'
 
-			if choice == 'Aye' or choice == 'Yes' or choice == 'Present':
+			if choice == 'Aye' or choice == 'Yes' or choice == 'Yea':
 				quant = '1'
 			elif choice == 'Nay' or choice == 'No':
-				quant = '-1'
-
+				quant = '0'
 
 			for voter in data['votes'][choice]:
 				
