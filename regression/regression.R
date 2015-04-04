@@ -14,7 +14,7 @@ x = x[1:rows,]
 
 cat('\tPARTY\tINTERCEPT\t')
 cat(colnames(donations), sep='\t')
-cat('\tP\tNULL_P')
+cat('\tSUM_ABS\tP\tNULL_P\tNET_P')
 cat('\n')
 
 for (i in 1:nrow(votes))
@@ -29,9 +29,14 @@ for (i in 1:nrow(votes))
 	c = coefficients(fit)
 
 	cat(colnames(votes)[i])
+	
 	cat('\t')
-
 	cat(c, sep='\t')
+
+	sum_abs = sum(abs(c))
+
+	cat('\t')
+	cat(sum_abs)
 
 	rd = with(fit, deviance)
 	rdf = with(fit, df.residual)
@@ -41,12 +46,16 @@ for (i in 1:nrow(votes))
 
 	rp = 1 - pchisq(rd, rdf)
 	np = 1 - pchisq(nd, ndf)
+	net_p = rp - np
 
 	cat('\t')
 	cat(rp)
 
 	cat('\t')
 	cat(np)
+
+	cat('\t')
+	cat(net_p)
 
 	cat('\n')
 }
