@@ -6,7 +6,7 @@ cp ../data/legislators.csv data/legislators.csv
 
 python align_donations_and_votes.py data/normalized_matrix.tsv data/vote_matrix.tsv data/legislators.csv
 
-python quantify_parties.py data/parties.txt > data/quantified_parties.txt
+python quantify_parties.py data/parties.tsv > data/quantified_parties.tsv
 
 Rscript regression.R data/aligned_matrix.tsv data/aligned_vote_matrix.tsv data/quantified_parties.txt > data/coefficients.tsv
 

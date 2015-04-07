@@ -2,18 +2,22 @@ import sys
 
 data = open(sys.argv[1]).readlines()
 
-for line in data:
+print data[0].strip()
 
-	value = line.strip()
+for line in data[1:]:
 
-	if value == 'Republican':
+	values = line.strip().split('\t')
 
-		print '-1'
+	if values[1] == 'Republican':
 
-	elif value == 'Democrat':
+		values[1] = '-1'
 
-		print '1'
+	elif values[1] == 'Democrat':
+
+		values[1] = '1'
 
 	else:
 
-		print '0'
+		values[1] = '0'
+
+	print '\t'.join(values)

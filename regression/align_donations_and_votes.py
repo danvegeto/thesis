@@ -7,7 +7,7 @@ legislators = pandas.read_csv(sys.argv[3], sep=',', quoting=True, quotechar='"')
 
 D = '\t'.join(donations.columns)
 V = '\t'.join(votes.columns)
-P = ''
+P = 'PARTY'
 
 for d in range(len(donations)):
 
@@ -28,19 +28,19 @@ for d in range(len(donations)):
 
 				if v_id == l_id_1 or v_id == l_id_2:
 
-					str_list = []
+					str_list = [d_id]
 					for x in donations.ix[d,:].values:
 						str_list.append(str(x))
 
 					D += '\n' + '\t'.join(str_list)
 
-					str_list = []
+					str_list = [d_id]
 					for x in votes.ix[v,:].values:
 						str_list.append(str(x))
 
 					V += '\n' + '\t'.join(str_list)
 
-					P += legislators.ix[l,'party'] + '\n'
+					P += '\n' + d_id + '\t' + legislators.ix[l,'party']
 
 D_file = open('data/aligned_matrix.tsv', 'w')
 D_file.write(D)
@@ -50,6 +50,6 @@ V_file = open('data/aligned_vote_matrix.tsv', 'w')
 V_file.write(V)
 V_file.close()
 
-P_file = open('data/parties.txt', 'w')
+P_file = open('data/parties.tsv', 'w')
 P_file.write(P)
 P_file.close()

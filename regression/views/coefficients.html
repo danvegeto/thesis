@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+	body 
+	{
+		font: 10px sans-serif;
+	}
+
+	.axis path,
+	.axis line 
+	{
+		fill: none;
+		stroke: #000;
+		shape-rendering: crispEdges;
+	}
+
+	.dot 
+	{
+		stroke: #000;
+	}
+
+</style>
+<body>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script>
+
+	var svgContainer = d3.select("body").append("svg")
+		.attr("width", 800)
+		.attr("height", 1200);
+
+	var rows = 94;
+	var cols = 259;
+
+	var row_width = 8;
+	var col_height = 5;
+
+	var value_scale = 0.1
+
+	var tooltip = d3.select("body")
+	    .append("div")
+	    .style("position", "absolute")
+	    .style("z-index", "10")
+	    .style("visibility", "hidden")
+	    .style("background-color", "#CCCCCC")
+	    .style("padding", "5px")
+	    .style("border-radius", "5px");
+
+	d3.tsv("data/combined_results.tsv", function(error, data) 
+	{
+		data.forEach(function(d, i) 
+		{
+			var keys = Object.keys(d)
+			
+			for(var j = 1; j < cols; j++)
+			{
+				var red = 256;
+				var green = 256;
+				var blue = 256;
+
+				var interest_name = keys[j];
+
+				var value = d[interest_name];
+
+				if(value > 0)
+				{
+					red = 256 * (1 - value*value_scale);
+					blue = 256 * (1 - value*value_scale);
+				}
+				else if(value < 0)
+				{
+					green = 256 * (1 + value*value_scale);
+					blue = 256 * (1 + value*value_scale);
+				}
+
+	    		var rectangle = svgContainer.append("rect")
+					.attr("x", 10 + j*row_width)
+				 	.attr("y", 10 + i*col_height)
+					.attr("width", row_width)
+					.attr("height", col_height)
+					.attr("fill", d3.rgb(red,green,blue))
+					.on("mouseover", function(){return tooltip.style("visibility", "visible");})
+					.on("mousemove", function(d){return tooltip
+						.html(d3.event.pageY + " " + d3.event.pageX)
+							.style("top", (d3.event.pageY-10)+"px")
+		  					.style("left", (d3.event.pageX+10)+"px");})
+					.on("mouseout", function(){return tooltip.style("visibility", "hidden");})
+					.on("click", function(d){window.open("http://www.opensecrets.org");});
+			}
+  		});
+	});
+
+</script>
