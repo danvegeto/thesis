@@ -14,11 +14,27 @@ parties = pd.read_csv(sys.argv[1], sep='\t')
 funding = pd.read_csv(sys.argv[2], sep='\t')
 votes = pd.read_csv(sys.argv[3], sep='\t')
 
+model_type = sys.argv[4]
+
 votes = np.floor(votes)
 
-x = parties.join(funding)
-#x = funding
-#x = parties
+num_politicians = votes.shape[0]
+
+intercept = pd.DataFrame([1]*num_politicians, columns=['INTERCEPT'], index = parties.index)
+
+x = None
+
+if model_type == 'CONTROL':
+	x = intercept
+elif model_type == 'PARTIES':
+	x = intercept.join(parties)
+elif model_type == 'FUNDING':
+	x = intercept.join(funding)
+elif model_type == 'COMBINED':
+	x = intercept.join(parties).join(funding)
+else:
+	print 'invalid model type'
+	sys.exit(1)
 
 print '\t' + '\t'.join(x.columns) + '\t' + 'SUM_ABS\tACCURACY'
 
