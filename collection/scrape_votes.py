@@ -16,7 +16,7 @@ for year in sys.argv[2:]:
 
 		vote_name = link['href'][:-1]
 
-		if not vote_name.startswith('h'):
+		if not vote_name.startswith('s'):
 			continue
 
 		url = dir_url + vote_name + '/data.json'
