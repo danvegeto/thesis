@@ -13,12 +13,18 @@ for d in range(len(donations)):
 
 	d_id = donations.index[d]
 
+	d_found = False
+
 	for l in range(len(legislators)-1, 10000, -1):
 
 		if legislators.ix[l,'opensecrets_id'] == d_id:
 
+			d_found = True
+
 			l_id_1 = legislators.ix[l,'lis_id']
 			l_id_2 = legislators.ix[l,'bioguide_id']
+
+			v_found = False
 
 			for v in range(len(votes)):
 
@@ -27,6 +33,13 @@ for d in range(len(donations)):
 				l_id = None
 
 				if v_id == l_id_1 or v_id == l_id_2:
+
+					v_found = True
+
+					party = legislators.ix[l,'party']
+
+					#if party == 'Republican':
+					#	break
 
 					str_list = [d_id]
 					for x in donations.ix[d,:].values:
@@ -40,7 +53,18 @@ for d in range(len(donations)):
 
 					V += '\n' + '\t'.join(str_list)
 
-					P += '\n' + d_id + '\t' + legislators.ix[l,'party']
+					P += '\n' + d_id + '\t' + party
+
+					#print d_id + '\t' + v_id
+
+				if v_found:
+					break
+
+			if v_found:
+				break
+
+		if d_found:
+			break
 
 D_file = open('data/aligned_matrix.tsv', 'w')
 D_file.write(D)

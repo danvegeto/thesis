@@ -1,10 +1,11 @@
+import sys
 import urllib
 import json
 from bs4 import BeautifulSoup
 
-congress = '113'
+congress = sys.argv[1]
 
-for year in ['2013', '2014']:
+for year in sys.argv[2:]:
 
 	dir_url = 'https://www.govtrack.us/data/congress/' + congress + '/votes/' + year + '/'
 
@@ -25,17 +26,17 @@ for year in ['2013', '2014']:
 
 		category = data['category']
 		
-		if category != 'passage':
-			continue
+		#if category != 'passage':
+		#	continue
 
 		for choice in data['votes'].keys():
 
-			quant = '0.5'
+			quant = '0'
 
 			if choice == 'Aye' or choice == 'Yes' or choice == 'Yea':
 				quant = '1'
 			elif choice == 'Nay' or choice == 'No':
-				quant = '0'
+				quant = '-1'
 
 			for voter in data['votes'][choice]:
 				

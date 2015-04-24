@@ -1,7 +1,8 @@
 set -v
 
+python scrape_candidates.py 112 > data/candidates.tsv
 python get_first_column.py data/candidates.tsv > data/cids.txt
-python scrape_industries.py 2012 data/cids.txt > data/industries.tsv
+python scrape_industries.py 2010 data/cids.txt > data/industries.tsv
 python get_unique_names.py data/industries.tsv > data/cids.txt
 python remove_missing_rows.py data/candidates.tsv data/cids.txt > data/candidates_1.tsv
 cp data/candidates_1.tsv data/candidates.tsv

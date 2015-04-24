@@ -13,10 +13,16 @@ from sklearn.cross_validation import cross_val_score
 parties = pd.read_csv(sys.argv[1], sep='\t')
 funding = pd.read_csv(sys.argv[2], sep='\t')
 votes = pd.read_csv(sys.argv[3], sep='\t')
-
 model_type = sys.argv[4]
 
-votes = np.floor(votes)
+if len(sys.argv) > 5:
+	funding_col = int(sys.argv[5])
+	funding = funding.ix[:,funding_col]
+
+#funding = funding.ix[:,["Transportation Unions", "Building Trade Unions", "Leadership PACs", "Candidate Committees", "Public Sector Unions", "Lobbyists", "Oil & Gas", "Misc Finance", "Democratic/Liberal"]]
+
+#votes = votes + 1
+votes = np.floor((votes + 1) / 2)
 
 num_politicians = votes.shape[0]
 
@@ -36,25 +42,40 @@ else:
 	print 'invalid model type'
 	sys.exit(1)
 
-print '\t' + '\t'.join(x.columns) + '\t' + 'SUM_ABS\tACCURACY'
+c_param = 100
+tol_param = 0.001
+k_param = 5
+
+print 'VOTE\t' + '\t'.join(x.columns) + '\t' + 'SUM_ABS\tACCURACY'
+
+#scores = []
 
 for i in range(votes.shape[1]):
 
 	col = votes.columns[i]
 	y = votes[col]
 
-	# instantiate a logistic regression model, and fit with X and y
-	model = LogisticRegression(C=100)
-	model = model.fit(x, y)
+	try:
 
-	coefficients = model.coef_[0]
-	sum_abs = sum(abs(coefficients))
+		# instantiate a logistic regression model, and fit with X and y
+		model = LogisticRegression(C=c_param, tol=tol_param)
+		model = model.fit(x, y)
 
-	str_list = []
-	for c in coefficients:
-		str_list.append(str(c))
+		coefficients = model.coef_[0]
+		sum_abs = sum(abs(coefficients))
 
-	# evaluate the model using 10-fold cross-validation
-	score = cross_val_score(LogisticRegression(C=100), x, y, scoring='accuracy', cv=10).mean()
+		str_list = []
+		for c in coefficients:
+			str_list.append(str(c))
 
-	print votes.columns[i] + '\t' + '\t'.join(str_list) + '\t' + str(sum_abs) + '\t' + str(score)
+		# evaluate the model using 10-fold cross-validation
+		score = cross_val_score(LogisticRegression(C=c_param, tol=tol_param), x, y, scoring='accuracy', cv=k_param).mean()
+
+		#scores.append(score)
+
+		print votes.columns[i] + '\t' + '\t'.join(str_list) + '\t' + str(sum_abs) + '\t' + str(score)
+
+	except ValueError:
+		continue
+
+#print sum(scores) / len(scores)

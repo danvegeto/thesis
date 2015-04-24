@@ -5,7 +5,7 @@ Rscript sort_candidates.R data/candidates.tsv > data/candidates_1.tsv
 cp data/candidates_1.tsv data/candidates.tsv
 
 python get_first_column.py data/candidates.tsv > data/cids.txt
-python scrape_candidate_totals.py 2012 data/cids.txt > data/candidate_totals.txt
+python scrape_candidate_totals.py 2010 data/cids.txt > data/candidate_totals.txt
 
 Rscript join_columns.R data/candidates.tsv data/candidate_totals.txt > data/candidates_1.tsv
 python remove_zero_rows.py data/candidates_1.tsv 4 > data/candidates_2.tsv
